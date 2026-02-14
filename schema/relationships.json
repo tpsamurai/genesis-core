@@ -1,0 +1,119 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Genesis 1.0 Relationship Definitions",
+  "description": "Relationship mappings between entities in the Genesis ontology",
+  "version": "1.0.0",
+  "relationships": {
+    "user_group_membership": {
+      "description": "Users can be members of groups",
+      "from": "User",
+      "to": "Group",
+      "type": "many-to-many",
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": ["member", "admin", "owner"],
+          "description": "Role of the user within the group"
+        },
+        "joined_at": {
+          "type": "timestamp",
+          "description": "When the user joined the group"
+        }
+      }
+    },
+    "resource_ownership": {
+      "description": "Resources are owned by users",
+      "from": "Resource",
+      "to": "User",
+      "type": "many-to-one",
+      "properties": {
+        "owner_id": {
+          "type": "string",
+          "description": "ID of the owning user"
+        }
+      }
+    },
+    "user_resource_access": {
+      "description": "Users have access permissions to resources",
+      "from": "User",
+      "to": "Resource",
+      "through": "Permission",
+      "type": "many-to-many",
+      "properties": {
+        "permission_id": {
+          "type": "string",
+          "description": "Type of permission granted"
+        },
+        "granted_at": {
+          "type": "timestamp",
+          "description": "When access was granted"
+        },
+        "granted_by": {
+          "type": "string",
+          "description": "User who granted the access"
+        },
+        "expires_at": {
+          "type": "timestamp",
+          "description": "When the access expires (optional)"
+        }
+      }
+    },
+    "group_resource_access": {
+      "description": "Groups have access permissions to resources",
+      "from": "Group",
+      "to": "Resource",
+      "through": "Permission",
+      "type": "many-to-many",
+      "properties": {
+        "permission_id": {
+          "type": "string",
+          "description": "Type of permission granted"
+        },
+        "granted_at": {
+          "type": "timestamp",
+          "description": "When access was granted"
+        },
+        "granted_by": {
+          "type": "string",
+          "description": "User who granted the access"
+        },
+        "expires_at": {
+          "type": "timestamp",
+          "description": "When the access expires (optional)"
+        }
+      }
+    },
+    "policy_resource_assignment": {
+      "description": "Policies are assigned to resources",
+      "from": "AccessPolicy",
+      "to": "Resource",
+      "type": "many-to-many",
+      "properties": {
+        "priority": {
+          "type": "integer",
+          "description": "Priority of the policy (higher number = higher priority)"
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Whether the policy is currently active"
+        },
+        "assigned_at": {
+          "type": "timestamp",
+          "description": "When the policy was assigned"
+        }
+      }
+    },
+    "policy_creation": {
+      "description": "Policies are created by users",
+      "from": "AccessPolicy",
+      "to": "User",
+      "type": "many-to-one",
+      "properties": {
+        "created_by": {
+          "type": "string",
+          "description": "ID of the user who created the policy"
+        }
+      }
+    }
+  }
+}
