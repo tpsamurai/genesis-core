@@ -1,0 +1,141 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Genesis 1.0 Entity Definitions",
+  "description": "Entity definitions for the Genesis ontology",
+  "version": "1.0.0",
+  "entities": {
+    "User": {
+      "description": "Core identity entity representing a system user",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user"
+        },
+        "username": {
+          "type": "string",
+          "description": "User's login name",
+          "required": true
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "User's email address",
+          "required": true
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "inactive", "suspended"],
+          "description": "Current status of the user account"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Additional user attributes"
+        }
+      },
+      "relationships": ["groups", "resources", "permissions"]
+    },
+    "Group": {
+      "description": "Collection of users for access management",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the group"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the group",
+          "required": true
+        },
+        "description": {
+          "type": "string",
+          "description": "Purpose or description of the group"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Additional group attributes"
+        }
+      },
+      "relationships": ["users", "resources", "permissions"]
+    },
+    "Resource": {
+      "description": "Protected resource in the system",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the resource"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the resource",
+          "required": true
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of resource (e.g., file, api, database)",
+          "required": true
+        },
+        "owner_id": {
+          "type": "string",
+          "description": "User ID of the resource owner"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Additional resource attributes"
+        }
+      },
+      "relationships": ["owner", "accessGrants", "policies"]
+    },
+    "Permission": {
+      "description": "Defined permission in the system",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the permission"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the permission (e.g., read, write, delete)",
+          "required": true
+        },
+        "description": {
+          "type": "string",
+          "description": "What this permission allows"
+        },
+        "scope": {
+          "type": "string",
+          "description": "Scope of the permission (e.g., global, resource-specific)"
+        }
+      },
+      "relationships": ["users", "groups", "resources"]
+    },
+    "AccessPolicy": {
+      "description": "Access control policy defining rules",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the policy"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the policy",
+          "required": true
+        },
+        "description": {
+          "type": "string",
+          "description": "Purpose of the policy"
+        },
+        "policy_type": {
+          "type": "string",
+          "enum": ["allow", "deny", "conditional"],
+          "description": "Type of policy",
+          "required": true
+        },
+        "conditions": {
+          "type": "object",
+          "description": "Conditions that must be met for policy to apply"
+        }
+      },
+      "relationships": ["resources", "creator"]
+    }
+  }
+}

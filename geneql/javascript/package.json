@@ -1,0 +1,28 @@
+{
+  "name": "@genesis/geneql",
+  "version": "1.0.0",
+  "description": "GeneQL query language implementation for Genesis ontology",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts"
+  },
+  "keywords": [
+    "genesis",
+    "ontology",
+    "query-language",
+    "access-management",
+    "identity"
+  ],
+  "author": "The Prompt Samurai",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0"
+  },
+  "dependencies": {}
+}
